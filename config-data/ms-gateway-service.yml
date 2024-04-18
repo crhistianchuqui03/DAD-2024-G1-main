@@ -1,0 +1,31 @@
+server:
+  port: 8089
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8091/eureka
+  instance:
+    hostname: localhost
+
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enable: true
+      routes:
+        - id: ms-catalogo-service
+          uri: lb://ms-catalogo-service
+          predicates:
+            - Path=/categoria/**, /producto/**
+        - id: ms-client-service
+          uri: lb://ms-client-service
+          predicates:
+            - Path=/clients/**
+        - id: ms-pedido-service
+          uri: lb://ms-pedido-service
+          predicates:
+            - Path=/pedido/**
